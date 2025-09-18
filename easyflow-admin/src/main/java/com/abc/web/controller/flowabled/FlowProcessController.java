@@ -3,7 +3,7 @@ package com.abc.web.controller.flowabled;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.abc.flowabled.domain.dto.FlowSubmitDTO;
+import com.abc.flowabled.domain.dto.FlowProcessSubmitDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import com.abc.common.annotation.Log;
 import com.abc.common.core.controller.BaseController;
 import com.abc.common.core.domain.AjaxResult;
 import com.abc.common.enums.BusinessType;
-import com.abc.flowabled.domain.entity.Flow;
+import com.abc.flowabled.domain.entity.FlowProcess;
 import com.abc.flowabled.service.FlowService;
 import com.abc.common.utils.poi.ExcelUtil;
 import com.abc.common.core.page.TableDataInfo;
@@ -31,7 +31,7 @@ import com.abc.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/flowabled/flow")
-public class FlowController extends BaseController {
+public class FlowProcessController extends BaseController {
     @Autowired
     private FlowService flowService;
 
@@ -40,9 +40,9 @@ public class FlowController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('flowabled:flow:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Flow flow) {
+    public TableDataInfo list(FlowProcess flowProcess) {
         startPage();
-        List<Flow> list = flowService.selectFlowList(flow);
+        List<FlowProcess> list = flowService.selectFlowList(flowProcess);
         return getDataTable(list);
     }
 
@@ -52,9 +52,9 @@ public class FlowController extends BaseController {
     @PreAuthorize("@ss.hasPermi('flowabled:flow:export')")
     @Log(title = "流程", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Flow flow) {
-        List<Flow> list = flowService.selectFlowList(flow);
-        ExcelUtil<Flow> util = new ExcelUtil<Flow>(Flow.class);
+    public void export(HttpServletResponse response, FlowProcess flowProcess) {
+        List<FlowProcess> list = flowService.selectFlowList(flowProcess);
+        ExcelUtil<FlowProcess> util = new ExcelUtil<FlowProcess>(FlowProcess.class);
         util.exportExcel(response, list, "流程数据");
     }
 
@@ -73,8 +73,8 @@ public class FlowController extends BaseController {
     @PreAuthorize("@ss.hasPermi('flowabled:flow:add')")
     @Log(title = "流程", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FlowSubmitDTO flowSubmitDTO) {
-        return toAjax(flowService.insertFlow(flowSubmitDTO));
+    public AjaxResult add(@RequestBody FlowProcessSubmitDTO flowProcessSubmitDTO) {
+        return toAjax(flowService.insertFlow(flowProcessSubmitDTO));
     }
 
     /**
@@ -83,8 +83,8 @@ public class FlowController extends BaseController {
     @PreAuthorize("@ss.hasPermi('flowabled:flow:edit')")
     @Log(title = "流程", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Flow flow) {
-        return toAjax(flowService.updateFlow(flow));
+    public AjaxResult edit(@RequestBody FlowProcess flowProcess) {
+        return toAjax(flowService.updateFlow(flowProcess));
     }
 
     /**

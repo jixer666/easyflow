@@ -1,5 +1,6 @@
 package com.abc.flowabled.domain.dto;
 
+import com.abc.flowabled.domain.enums.NodeTypeEnum;
 import lombok.Data;
 
 import java.util.List;
@@ -7,15 +8,32 @@ import java.util.List;
 @Data
 public class NodeDTO {
 
+    private String id;
+
     private String nodeName;
 
     private NodeDTO childNode;
 
     private Integer type;
 
-    private List<FlowFormItemDTO> conditionList;
+    private List<FlowProcessFormItemDTO> conditionList;
 
     private List<NodeDTO> conditionNodes;
 
 
+    public Boolean isRootNode() {
+        return this.type.equals(NodeTypeEnum.ROOT.getValue());
+    }
+
+    public Boolean isEndNode() {
+        return this.type.equals(NodeTypeEnum.END.getValue());
+    }
+
+    public Boolean isApproveNode() {
+        return this.type.equals(NodeTypeEnum.APPROVAL.getValue());
+    }
+
+    public Boolean isCcNode() {
+        return this.type.equals(NodeTypeEnum.CC.getValue());
+    }
 }

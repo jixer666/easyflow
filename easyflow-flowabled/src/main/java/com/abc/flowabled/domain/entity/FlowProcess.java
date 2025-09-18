@@ -1,8 +1,6 @@
 package com.abc.flowabled.domain.entity;
 
 import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.abc.common.annotation.Excel;
 import com.abc.common.core.domain.BaseEntity;
 
@@ -13,7 +11,7 @@ import com.abc.common.core.domain.BaseEntity;
  * @date 2025-09-18
  */
 @Data
-public class Flow extends BaseEntity {
+public class FlowProcess extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 流程ID */
@@ -21,7 +19,7 @@ public class Flow extends BaseEntity {
 
     /** 流程名称 */
     @Excel(name = "流程名称")
-    private String flowName;
+    private String flowProcessName;
 
     /** 简要说明 */
     @Excel(name = "简要说明")

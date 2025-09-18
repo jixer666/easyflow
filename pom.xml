@@ -9,7 +9,7 @@
     <version>3.9.0</version>
 
     <name>easyflow</name>
-    <description>校园帮</description>
+    <description>EasyFlow</description>
     
     <properties>
         <ruoyi.version>3.9.0</ruoyi.version>
@@ -271,7 +271,6 @@
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-bpmn-layout</artifactId>
                 <version>${flowable.version}</version>
-
             </dependency>
             <dependency>
                 <groupId>org.flowable</groupId>

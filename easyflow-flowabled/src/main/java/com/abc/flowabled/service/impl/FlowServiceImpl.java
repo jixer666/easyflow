@@ -2,7 +2,7 @@ package com.abc.flowabled.service.impl;
 
 import java.util.List;
 import com.abc.common.utils.DateUtils;
-import com.abc.flowabled.domain.dto.FlowSubmitDTO;
+import com.abc.flowabled.domain.dto.FlowProcessSubmitDTO;
 import com.abc.flowabled.domain.dto.NodeDTO;
 import com.abc.flowabled.util.ModelUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,7 +10,7 @@ import org.flowable.bpmn.model.BpmnModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.abc.flowabled.mapper.FlowMapper;
-import com.abc.flowabled.domain.entity.Flow;
+import com.abc.flowabled.domain.entity.FlowProcess;
 import com.abc.flowabled.service.FlowService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2025-09-18
  */
 @Service
-public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements FlowService {
+public class FlowServiceImpl extends ServiceImpl<FlowMapper, FlowProcess> implements FlowService {
 
     @Autowired
     private FlowMapper flowMapper;
@@ -33,19 +33,19 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
      * @return 流程
      */
     @Override
-    public Flow selectFlowByFlowId(Long flowId) {
+    public FlowProcess selectFlowByFlowId(Long flowId) {
         return flowMapper.selectFlowByFlowId(flowId);
     }
 
     /**
      * 查询流程列表
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 流程
      */
     @Override
-    public List<Flow> selectFlowList(Flow flow) {
-        return flowMapper.selectFlowList(flow);
+    public List<FlowProcess> selectFlowList(FlowProcess flowProcess) {
+        return flowMapper.selectFlowList(flowProcess);
     }
 
     /**
@@ -56,15 +56,15 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
      */
     @Override
     @Transactional
-    public int insertFlow(FlowSubmitDTO flowSubmitDTO) {
-        checkFlowCreateParam(flowSubmitDTO);
-        createAndSaveBpmn(flowSubmitDTO.getNodeConfig());
+    public int insertFlow(FlowProcessSubmitDTO flowProcessSubmitDTO) {
+        checkFlowCreateParam(flowProcessSubmitDTO);
+        createAndSaveBpmn(flowProcessSubmitDTO.getNodeConfig());
 
 //        return flowMapper.insertFlow(flow);
         return 0;
     }
 
-    private void checkFlowCreateParam(FlowSubmitDTO flowSubmitDTO) {
+    private void checkFlowCreateParam(FlowProcessSubmitDTO flowProcessSubmitDTO) {
 
 
     }
@@ -77,13 +77,13 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
     /**
      * 修改流程
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 结果
      */
     @Override
-    public int updateFlow(Flow flow) {
-        flow.setUpdateTime(DateUtils.getNowDate());
-        return flowMapper.updateFlow(flow);
+    public int updateFlow(FlowProcess flowProcess) {
+        flowProcess.setUpdateTime(DateUtils.getNowDate());
+        return flowMapper.updateFlow(flowProcess);
     }
 
     /**

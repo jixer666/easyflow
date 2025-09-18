@@ -1,7 +1,7 @@
 package com.abc.flowabled.mapper;
 
 import java.util.List;
-import com.abc.flowabled.domain.entity.Flow;
+import com.abc.flowabled.domain.entity.FlowProcess;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -10,38 +10,38 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author LiJunXi
  * @date 2025-09-18
  */
-public interface FlowMapper extends BaseMapper<Flow> {
+public interface FlowMapper extends BaseMapper<FlowProcess> {
     /**
      * 查询流程
      *
      * @param flowId 流程主键
      * @return 流程
      */
-    Flow selectFlowByFlowId(Long flowId);
+    FlowProcess selectFlowByFlowId(Long flowId);
 
     /**
      * 查询流程列表
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 流程集合
      */
-    List<Flow> selectFlowList(Flow flow);
+    List<FlowProcess> selectFlowList(FlowProcess flowProcess);
 
     /**
      * 新增流程
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 结果
      */
-    int insertFlow(Flow flow);
+    int insertFlow(FlowProcess flowProcess);
 
     /**
      * 修改流程
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 结果
      */
-    int updateFlow(Flow flow);
+    int updateFlow(FlowProcess flowProcess);
 
     /**
      * 删除流程

@@ -2,8 +2,8 @@ package com.abc.flowabled.service;
 
 import java.util.List;
 
-import com.abc.flowabled.domain.dto.FlowSubmitDTO;
-import com.abc.flowabled.domain.entity.Flow;
+import com.abc.flowabled.domain.dto.FlowProcessSubmitDTO;
+import com.abc.flowabled.domain.entity.FlowProcess;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,38 +12,38 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author LiJunXi
  * @date 2025-09-18
  */
-public interface FlowService extends IService<Flow> {
+public interface FlowService extends IService<FlowProcess> {
     /**
      * 查询流程
      *
      * @param flowId 流程主键
      * @return 流程
      */
-    Flow selectFlowByFlowId(Long flowId);
+    FlowProcess selectFlowByFlowId(Long flowId);
 
     /**
      * 查询流程列表
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 流程集合
      */
-    List<Flow> selectFlowList(Flow flow);
+    List<FlowProcess> selectFlowList(FlowProcess flowProcess);
 
     /**
      * 新增流程
      *
-     * @param flowSubmitDTO 流程
+     * @param flowProcessSubmitDTO 流程
      * @return 结果
      */
-    int insertFlow(FlowSubmitDTO flowSubmitDTO);
+    int insertFlow(FlowProcessSubmitDTO flowProcessSubmitDTO);
 
     /**
      * 修改流程
      *
-     * @param flow 流程
+     * @param flowProcess 流程
      * @return 结果
      */
-    int updateFlow(Flow flow);
+    int updateFlow(FlowProcess flowProcess);
 
     /**
      * 批量删除流程
