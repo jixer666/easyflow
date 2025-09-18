@@ -63,8 +63,8 @@
                         <div>
                             <el-form :model="item" label-width="70px">
                                 <el-form-item label="属性">
-                                    <el-select v-model="item.attribute">
-                                      <el-option :label="citem.label" :value="citem.label" v-for="citem, cindex in attributes" :key="cindex"></el-option>
+                                    <el-select v-model="item.renderKey" @change="changeLabel(item.renderKey, index)">
+                                      <el-option :label="citem.label" :value="citem.renderKey" v-for="citem, cindex in attributes" :key="cindex"></el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="关系">
@@ -72,6 +72,8 @@
                                       <el-option label="小于" value="1"></el-option>
                                       <el-option label="大于" value="2"></el-option>
                                       <el-option label="等于" value="3"></el-option>
+                                      <el-option label="小于等于" value="4"></el-option>
+                                      <el-option label="大于等于" value="5"></el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="条件值">
@@ -150,6 +152,12 @@ export default {
     },
     methods: {
         ...mapMutations('flowabled', ['setCondition', 'setConditionsConfig']),
+        changeLabel(renderKey, index) {
+            const selectedItem = this.attributes.find(item => item.renderKey === renderKey);
+            if (selectedItem) {
+                Object.assign(this.conditionConfig.conditionList[index], selectedItem);
+            }
+        },
         changeOptType(item) {
             if (item.optType == 1) {
                 item.zdy1 = 2;

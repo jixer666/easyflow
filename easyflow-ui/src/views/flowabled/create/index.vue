@@ -152,7 +152,7 @@ export default {
     async saveSet() {
       console.log({
         flowBaseInfo: this.flowBaseInfo,
-        formItem: this.formItems,
+        flowFormItems: this.formItems,
         nodeConfig: this.nodeConfig
       })
       // this.setIsTried(true);

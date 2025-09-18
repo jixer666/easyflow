@@ -115,26 +115,31 @@ All.prototype = {
         } else {
             let str = ""
             for (var i = 0; i < conditionList.length; i++) {
-                var { columnId, columnType, showType, showName, optType, zdy1, opt1, zdy2, opt2, fixedDownBoxValue } = conditionList[i];
-                if (columnId == 0) {
-                    if (nodeUserList.length != 0) {
-                        str += '发起人属于：'
-                        str += nodeUserList.map(item => item.name).join("或") + " 并且 "
-                    }
-                }
-                if (columnType == "String" && showType == "checkBox") {
-                    if (zdy1) {
-                        str += showName + '属于：' + this.dealStr(zdy1, JSON.parse(fixedDownBoxValue)) + " 并且 "
-                    }
-                }
-                if (columnType == "Double") {
-                    if (optType != 6 && zdy1) {
-                        var optTypeStr = ["", "<", ">", "≤", "=", "≥"][optType]
-                        str += `${showName} ${optTypeStr} ${zdy1} 并且 `
-                    } else if (optType == 6 && zdy1 && zdy2) {
-                        str += `${zdy1} ${opt1} ${showName} ${opt2} ${zdy2} 并且 `
-                    }
-                }
+                console.log(conditionList[i])
+                // var { columnId, columnType, showType, showName, optType, zdy1, opt1, zdy2, opt2, fixedDownBoxValue } = conditionList[i];
+                // if (columnId == 0) {
+                //     if (nodeUserList.length != 0) {
+                //         str += '发起人属于：'
+                //         str += nodeUserList.map(item => item.name).join("或") + " 并且 "
+                //     }
+                // }
+                // if (columnType == "String" && showType == "checkBox") {
+                //     if (zdy1) {
+                //         str += showName + '属于：' + this.dealStr(zdy1, JSON.parse(fixedDownBoxValue)) + " 并且 "
+                //     }
+                // }
+                // if (columnType == "Double") {
+                //     if (optType != 6 && zdy1) {
+                //         var optTypeStr = ["", "<", ">", "=", "≤"，"≥"][optType]
+                //         str += `${showName} ${optTypeStr} ${zdy1} 并且 `
+                //     } else if (optType == 6 && zdy1 && zdy2) {
+                //         str += `${zdy1} ${opt1} ${showName} ${opt2} ${zdy2} 并且 `
+                //     }
+                // }
+
+                var { renderKey, label, optType, value } = conditionList[i];
+                var optTypeStr = ["", "<", ">", "=", "≤", "≥"][optType];
+                str += `${label} ${optTypeStr} ${value} 并且 `
             }
             return str ? str.substring(0, str.length - 4) : '请设置条件'
         }

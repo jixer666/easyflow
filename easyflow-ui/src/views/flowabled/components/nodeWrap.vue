@@ -266,7 +266,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .error_tip {
     position: absolute;
     top: 0px;
