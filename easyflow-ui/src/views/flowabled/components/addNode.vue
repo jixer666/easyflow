@@ -30,6 +30,8 @@
     </div>
 </template>
 <script>
+import * as util from '@/utils/objutil.js';
+
 export default {
     props: ["childNodeP"],
     data() {
@@ -44,6 +46,7 @@ export default {
                 var data;
                 if (type == 1) {
                     data = {
+                        "id": util.getRandomId(),
                         "nodeName": "审核人",
                         "error": true,
                         "type": 1,
@@ -55,10 +58,11 @@ export default {
                         "noHanderAction": 1,
                         "examineEndDirectorLevel": 0,
                         "childNode": this.childNodeP,
-                        "nodeUserList": []
+                        "nodeUserList": [],
                     }
                 } else if (type == 2) {
                     data = {
+                        "id": util.getRandomId(),
                         "nodeName": "抄送人",
                         "type": 2,
                         "ccSelfSelectFlag": 1,
@@ -69,10 +73,12 @@ export default {
                 this.$emit("update:childNodeP", data)
             } else {
                 this.$emit("update:childNodeP", {
+                    "id": util.getRandomId(),
                     "nodeName": "路由",
                     "type": 4,
                     "childNode": null,
                     "conditionNodes": [{
+                        "id": util.getRandomId(),
                         "nodeName": "条件1",
                         "error": true,
                         "type": 3,
@@ -81,6 +87,7 @@ export default {
                         "nodeUserList": [],
                         "childNode": this.childNodeP,
                     }, {
+                        "id": util.getRandomId(),
                         "nodeName": "条件2",
                         "type": 3,
                         "priorityLevel": 2,

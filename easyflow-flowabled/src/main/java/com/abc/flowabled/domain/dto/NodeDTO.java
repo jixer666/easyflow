@@ -3,10 +3,11 @@ package com.abc.flowabled.domain.dto;
 import com.abc.flowabled.domain.enums.NodeTypeEnum;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class NodeDTO {
+public class NodeDTO implements Cloneable, Serializable {
 
     private String id;
 
@@ -36,4 +37,13 @@ public class NodeDTO {
     public Boolean isCcNode() {
         return this.type.equals(NodeTypeEnum.CC.getValue());
     }
+
+    public Boolean isExclusiveGatewayNode() {
+        return this.type.equals(NodeTypeEnum.EXCLUSIVE_GATEWAY.getValue());
+    }
+
+    public Boolean isParallelGatewayNode() {
+        return this.type.equals(NodeTypeEnum.PARALLEL_GATEWAY.getValue());
+    }
+
 }

@@ -30,7 +30,7 @@ import com.abc.common.core.page.TableDataInfo;
  * @date 2025-09-18
  */
 @RestController
-@RequestMapping("/flowabled/flow")
+@RequestMapping("/flowabled/flowProcess")
 public class FlowProcessController extends BaseController {
     @Autowired
     private FlowService flowService;

@@ -1,6 +1,7 @@
 package com.abc.flowabled.util;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.abc.common.constant.FlowableConstants;
 import org.flowable.bpmn.model.ExtensionElement;
 
@@ -33,6 +34,11 @@ public class FlowableUtils {
     }
 
 
+    public static String generateFlowId() {
+        return "flow_" + RandomUtil.randomString(6) + System.currentTimeMillis();
+    }
 
-
+    public static String generateFlowSavePath(String flowId) {
+        return flowId + ".bpmn20.xml";
+    }
 }

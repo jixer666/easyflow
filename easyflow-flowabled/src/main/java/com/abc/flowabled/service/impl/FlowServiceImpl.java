@@ -1,13 +1,20 @@
 package com.abc.flowabled.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.abc.common.utils.DateUtils;
 import com.abc.flowabled.domain.dto.FlowProcessSubmitDTO;
 import com.abc.flowabled.domain.dto.NodeDTO;
+import com.abc.flowabled.util.FlowableUtils;
 import com.abc.flowabled.util.ModelUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.engine.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.abc.flowabled.mapper.FlowMapper;
 import com.abc.flowabled.domain.entity.FlowProcess;
@@ -25,6 +32,12 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, FlowProcess> implem
 
     @Autowired
     private FlowMapper flowMapper;
+
+    @Value("${ruoyi.profile}")
+    private String ossFilePath;
+
+    @Autowired
+    private RepositoryService repositoryService;
 
     /**
      * 查询流程
@@ -71,7 +84,16 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, FlowProcess> implem
 
     private void createAndSaveBpmn(NodeDTO nodeConfig) {
         BpmnModel bpmnModel = ModelUtil.buildBpmnModel(nodeConfig);
-
+        byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(bpmnModel);
+        String flowId = FlowableUtils.generateFlowId();
+        String filename = FlowableUtils.generateFlowSavePath(flowId);
+        String filePath = ossFilePath + "\\" + filename;
+        FileUtil.writeBytes(bpmnBytes, filePath);
+//
+//        repositoryService.createDeployment()
+//                .tenantId(null)
+//                .addBpmnModel(filename, bpmnModel)
+//                .deploy();
     }
 
     /**

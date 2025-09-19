@@ -26,8 +26,8 @@
 
         <el-form-item label="分组" prop="groupId">
           <el-select v-model="formData.groupId" placeholder="请选择流程分组">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option label="区域一" value="1"></el-option>
+            <el-option label="区域二" value="2"></el-option>
           </el-select>
         </el-form-item>
 

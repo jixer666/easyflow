@@ -52,6 +52,7 @@
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
+import { addFlowProcess } from "@/api/flowabled/flowProcess";
 import { mapMutations } from "vuex";
 
 export default {
@@ -69,6 +70,7 @@ export default {
         directorMaxLevel: 4,
         flowPermission: [],
         nodeConfig: {
+          id: "root",
           nodeName: "发起人",
           type: 0,
           priorityLevel: "",
@@ -80,10 +82,10 @@ export default {
           noHanderAction: "",
           examineEndDirectorLevel: "",
           ccSelfSelectFlag: "",
-          conditionList: [],
-          nodeUserList: [],
-          childNode: {},
-          conditionNodes: {},
+          conditionList: null,
+          nodeUserList: null,
+          childNode: null,
+          conditionNodes: null
         },
       },
       nodeConfig: {},
@@ -150,10 +152,12 @@ export default {
       }
     },
     async saveSet() {
-      console.log({
+      addFlowProcess({
         flowBaseInfo: this.flowBaseInfo,
         flowFormItems: this.formItems,
         nodeConfig: this.nodeConfig
+      }).then(res => {
+        this.$message.success("设置成功");
       })
       // this.setIsTried(true);
       // this.tipList = [];

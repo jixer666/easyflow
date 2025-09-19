@@ -8,6 +8,8 @@ public class FlowableConstants {
 
     public static final String FA_QI_REN = "发起人";
 
+    public static final String CLASS = "class";
+
 
 
 }
