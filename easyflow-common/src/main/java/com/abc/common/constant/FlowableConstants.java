@@ -10,6 +10,10 @@ public class FlowableConstants {
 
     public static final String CLASS = "class";
 
+    public static final String DEFAULT_EXPRESSION = "${1==1}";
 
+    public static final String NODE_NODE = "end";
+    public static final String NODE_NODE_NAME = "结束节点";
 
+    public static final String TASK_TYPE = "taskType";
 }

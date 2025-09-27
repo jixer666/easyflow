@@ -1,17 +1,20 @@
 package com.abc.flowabled.util;
 
+import cn.hutool.core.util.StrUtil;
+import com.abc.common.constant.FlowableConstants;
 import com.abc.flowabled.domain.dto.NodeDTO;
+import com.abc.flowabled.domain.enums.NodeTypeEnum;
 
 import java.util.Objects;
 
 public class NodeUtil {
 
     public static Boolean isNode(NodeDTO nodeDTO) {
-        return Objects.nonNull(nodeDTO);
+        return Objects.nonNull(nodeDTO) && StrUtil.isNotEmpty(nodeDTO.getId());
     }
 
     public static String getUserTaskIdByNodeId(String nodeId) {
-        return String.format("user_task_{}", nodeId);
+        return String.format("user_task_%s", nodeId);
     }
 
     public static String getServiceTaskIdByNodeId(String nodeId) {
@@ -52,5 +55,30 @@ public class NodeUtil {
 
     public static String getEndParallelGatewayNameByNodeName(String nodeName) {
         return String.format("并行合并网关_%s", nodeName);
+    }
+
+    public static String getSequenceFlowIdByNodeId(String nodeId) {
+        return String.format("sequence_flow_%s", nodeId);
+    }
+
+    public static String getSequenceFlowNameByNodeName(String nodeName) {
+        return String.format("连线_%s", nodeName);
+    }
+
+    public static String getUserTaskNameByNodeName(String nodeName) {
+        return String.format("用户任务_%s", nodeName);
+    }
+
+    public static void addEndNode(NodeDTO nodeConfig) {
+        if (isNode(nodeConfig.getChildNode())) {
+            addEndNode(nodeConfig.getChildNode());
+            return;
+        }
+        NodeDTO nodeDTO = new NodeDTO();
+        nodeDTO.setId(FlowableConstants.NODE_NODE);
+        nodeDTO.setNodeName(FlowableConstants.NODE_NODE_NAME);
+        nodeDTO.setType(NodeTypeEnum.END.getValue());
+        nodeDTO.setParentId(nodeConfig.getId());
+        nodeConfig.setChildNode(nodeDTO);
     }
 }

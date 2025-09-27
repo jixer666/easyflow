@@ -4,7 +4,9 @@ import java.util.List;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.abc.common.TenantUtils;
 import com.abc.common.utils.DateUtils;
+import com.abc.common.utils.IdUtils;
 import com.abc.flowabled.domain.dto.FlowProcessSubmitDTO;
 import com.abc.flowabled.domain.dto.NodeDTO;
 import com.abc.flowabled.util.FlowableUtils;
@@ -64,15 +66,15 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, FlowProcess> implem
     /**
      * 新增流程
      *
-     * @param flow 流程
+     * @param flowProcessSubmitDTO 流程
      * @return 结果
      */
     @Override
     @Transactional
     public int insertFlow(FlowProcessSubmitDTO flowProcessSubmitDTO) {
         checkFlowCreateParam(flowProcessSubmitDTO);
-        createAndSaveBpmn(flowProcessSubmitDTO.getNodeConfig());
-
+        String flowId = createAndSaveBpmn(flowProcessSubmitDTO);
+        System.out.println(flowId);
 //        return flowMapper.insertFlow(flow);
         return 0;
     }
@@ -82,18 +84,20 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, FlowProcess> implem
 
     }
 
-    private void createAndSaveBpmn(NodeDTO nodeConfig) {
-        BpmnModel bpmnModel = ModelUtil.buildBpmnModel(nodeConfig);
-        byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(bpmnModel);
+    private String createAndSaveBpmn(FlowProcessSubmitDTO flowProcessSubmitDTO) {
         String flowId = FlowableUtils.generateFlowId();
+        BpmnModel bpmnModel = ModelUtil.buildBpmnModel(flowProcessSubmitDTO.getNodeConfig(), flowId, flowProcessSubmitDTO.getFlowBaseInfo().getFlowProcessName());
+        byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(bpmnModel);
         String filename = FlowableUtils.generateFlowSavePath(flowId);
         String filePath = ossFilePath + "\\" + filename;
         FileUtil.writeBytes(bpmnBytes, filePath);
-//
-//        repositoryService.createDeployment()
-//                .tenantId(null)
-//                .addBpmnModel(filename, bpmnModel)
-//                .deploy();
+
+        repositoryService.createDeployment()
+                .tenantId(TenantUtils.getTenantId())
+                .addBpmnModel(filePath, bpmnModel)
+                .deploy();
+
+        return flowId;
     }
 
     /**

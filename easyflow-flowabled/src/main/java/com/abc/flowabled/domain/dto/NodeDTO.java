@@ -21,6 +21,9 @@ public class NodeDTO implements Cloneable, Serializable {
 
     private List<NodeDTO> conditionNodes;
 
+    private String parentId;
+
+    private String childId;
 
     public Boolean isRootNode() {
         return this.type.equals(NodeTypeEnum.ROOT.getValue());
