@@ -36,7 +36,12 @@ import DictTag from '@/components/DictTag'
 // 字典数据组件
 import DictData from '@/components/DictData'
 
+// 工作流
 import func from '@/views/flowabled/plugins/preload.js'
+
+// 水印
+import VueWaterMarker from 'vue2-water-marker';
+
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -61,6 +66,8 @@ Vue.component('ImagePreview', ImagePreview)
 
 Vue.use(directive)
 Vue.use(plugins)
+Vue.use(VueWaterMarker)
+
 DictData.install()
 
 /**

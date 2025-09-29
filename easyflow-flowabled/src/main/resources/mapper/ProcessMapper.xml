@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.flowabled.mapper.ProcessMapper">
+    
+    <resultMap type="Process" id="ProcessResult">
+        <result property="processId"    column="process_id"    />
+        <result property="processName"    column="process_name"    />
+        <result property="desc"    column="desc"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="flowId"    column="flow_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="ver"    column="ver"    />
+    </resultMap>
+
+    <sql id="selectProcessVo">
+        select process_id, process_name, desc, group_id, flow_id, user_id, tenant_id, create_time, update_time, status, ver from tb_process
+    </sql>
+
+    <select id="selectProcessList" parameterType="Process" resultMap="ProcessResult">
+        <include refid="selectProcessVo"/>
+        <where>  
+            <if test="processName != null  and processName != ''"> and process_name like concat('%', #{processName}, '%')</if>
+            <if test="desc != null  and desc != ''"> and desc = #{desc}</if>
+            <if test="groupId != null "> and group_id = #{groupId}</if>
+            <if test="flowId != null  and flowId != ''"> and flow_id = #{flowId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="ver != null "> and ver = #{ver}</if>
+        </where>
+    </select>
+    
+    <select id="selectProcessByProcessId" parameterType="Long" resultMap="ProcessResult">
+        <include refid="selectProcessVo"/>
+        where process_id = #{processId}
+    </select>
+
+    <insert id="insertProcess" parameterType="Process">
+        insert into tb_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processId != null">process_id,</if>
+            <if test="processName != null">process_name,</if>
+            <if test="desc != null">desc,</if>
+            <if test="groupId != null">group_id,</if>
+            <if test="flowId != null">flow_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="ver != null">ver,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processId != null">#{processId},</if>
+            <if test="processName != null">#{processName},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="groupId != null">#{groupId},</if>
+            <if test="flowId != null">#{flowId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="ver != null">#{ver},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProcess" parameterType="Process">
+        update tb_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="processName != null">process_name = #{processName},</if>
+            <if test="desc != null">desc = #{desc},</if>
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="flowId != null">flow_id = #{flowId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="ver != null">ver = #{ver},</if>
+        </trim>
+        where process_id = #{processId}
+    </update>
+
+    <delete id="deleteProcessByProcessId" parameterType="Long">
+        delete from tb_process where process_id = #{processId}
+    </delete>
+
+    <delete id="deleteProcessByProcessIds" parameterType="String">
+        delete from tb_process where process_id in 
+        <foreach item="processId" collection="array" open="(" separator="," close=")">
+            #{processId}
+        </foreach>
+    </delete>
+</mapper>

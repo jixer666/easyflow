@@ -9,6 +9,7 @@
       </div>
       <app-main/>
       <settings ref="settingRef"/>
+      <water-marker></water-marker>
     </div>
   </div>
 </template>
@@ -18,6 +19,7 @@ import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 import variables from '@/assets/styles/variables.scss'
+import WaterMarker from '@/components/WaterMarker'
 
 export default {
   name: 'Layout',
@@ -26,7 +28,8 @@ export default {
     Navbar,
     Settings,
     Sidebar,
-    TagsView
+    TagsView,
+    WaterMarker
   },
   mixins: [ResizeMixin],
   computed: {

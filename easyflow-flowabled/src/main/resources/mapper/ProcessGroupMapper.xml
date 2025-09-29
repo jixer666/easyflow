@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.flowabled.mapper.ProcessGroupMapper">
+    
+    <resultMap type="ProcessGroup" id="ProcessGroupResult">
+        <result property="groupId"    column="group_id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="ver"    column="ver"    />
+    </resultMap>
+
+    <resultMap type="ProcessGroupVO" id="ProcessGroupWithProcessResult">
+        <result property="groupId"    column="group_id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <collection property="processList" ofType="ProcessVO" javaType="java.util.List">
+            <result property="processId" column="process_id"></result>
+            <result property="processName" column="process_name"></result>
+            <result property="desc" column="desc"></result>
+            <result property="groupId" column="group_id"></result>
+        </collection>
+    </resultMap>
+
+    <sql id="selectProcessGroupVo">
+        select group_id, group_name, user_id, tenant_id, create_time, update_time, status, ver from tb_process_group
+    </sql>
+
+    <select id="selectProcessGroupList" parameterType="ProcessGroup" resultMap="ProcessGroupResult">
+        <include refid="selectProcessGroupVo"/>
+        <where>  
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="tenantId != null "> and tenant_id = #{tenantId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="ver != null "> and ver = #{ver}</if>
+        </where>
+    </select>
+    
+    <select id="selectProcessGroupByGroupId" parameterType="Long" resultMap="ProcessGroupResult">
+        <include refid="selectProcessGroupVo"/>
+        where group_id = #{groupId}
+    </select>
+    <select id="selectProcessGroupListWithProcess" resultMap="ProcessGroupWithProcessResult">
+        select pg.group_id, pg.group_name, pg.user_id, pg.tenant_id,
+        p.group_id, p.process_id, p.process_name, p.desc
+        from tb_process_group pg
+        left join tb_process p on p.group_id = pg.group_id
+    </select>
+
+    <insert id="insertProcessGroup" parameterType="ProcessGroup">
+        insert into tb_process_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">group_id,</if>
+            <if test="groupName != null">group_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="ver != null">ver,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">#{groupId},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="ver != null">#{ver},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProcessGroup" parameterType="ProcessGroup">
+        update tb_process_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="ver != null">ver = #{ver},</if>
+        </trim>
+        where group_id = #{groupId}
+    </update>
+
+    <delete id="deleteProcessGroupByGroupId" parameterType="Long">
+        delete from tb_process_group where group_id = #{groupId}
+    </delete>
+
+    <delete id="deleteProcessGroupByGroupIds" parameterType="String">
+        delete from tb_process_group where group_id in 
+        <foreach item="groupId" collection="array" open="(" separator="," close=")">
+            #{groupId}
+        </foreach>
+    </delete>
+</mapper>

@@ -17,7 +17,7 @@ public class NodeDTO implements Cloneable, Serializable {
 
     private Integer type;
 
-    private List<FlowProcessFormItemDTO> conditionList;
+    private List<ProcessFormItemDTO> conditionList;
 
     private List<NodeDTO> conditionNodes;
 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.flowabled.mapper.ProcessInstanceMapper">
+    
+    <resultMap type="ProcessInstance" id="ProcessInstanceResult">
+        <result property="processInstanceId"    column="process_instance_id"    />
+        <result property="processId"    column="process_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="result"    column="result"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="ver"    column="ver"    />
+    </resultMap>
+
+    <sql id="selectProcessInstanceVo">
+        select process_instance_id, process_id, user_id, result, create_time, end_time, update_time, status, ver from tb_process_instance
+    </sql>
+
+    <select id="selectProcessInstanceList" parameterType="ProcessInstance" resultMap="ProcessInstanceResult">
+        <include refid="selectProcessInstanceVo"/>
+        <where>  
+            <if test="processId != null "> and process_id = #{processId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="result != null "> and result = #{result}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="ver != null "> and ver = #{ver}</if>
+        </where>
+    </select>
+    
+    <select id="selectProcessInstanceByProcessInstanceId" parameterType="Long" resultMap="ProcessInstanceResult">
+        <include refid="selectProcessInstanceVo"/>
+        where process_instance_id = #{processInstanceId}
+    </select>
+
+    <insert id="insertProcessInstance" parameterType="ProcessInstance">
+        insert into tb_process_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processInstanceId != null">process_instance_id,</if>
+            <if test="processId != null">process_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="result != null">result,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="ver != null">ver,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processInstanceId != null">#{processInstanceId},</if>
+            <if test="processId != null">#{processId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="result != null">#{result},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="ver != null">#{ver},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProcessInstance" parameterType="ProcessInstance">
+        update tb_process_instance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="processId != null">process_id = #{processId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="ver != null">ver = #{ver},</if>
+        </trim>
+        where process_instance_id = #{processInstanceId}
+    </update>
+
+    <delete id="deleteProcessInstanceByProcessInstanceId" parameterType="Long">
+        delete from tb_process_instance where process_instance_id = #{processInstanceId}
+    </delete>
+
+    <delete id="deleteProcessInstanceByProcessInstanceIds" parameterType="String">
+        delete from tb_process_instance where process_instance_id in 
+        <foreach item="processInstanceId" collection="array" open="(" separator="," close=")">
+            #{processInstanceId}
+        </foreach>
+    </delete>
+</mapper>

@@ -125,7 +125,18 @@ public class ModelUtil {
         // 自动跳过
         userTask.setSkipExpression(StrUtil.format("${true}"));
 
-        // todo 配置多实例会签任务
+        // 配置多实例会签任务
+        String inputDataItem = "${multiInstanceHandler.resolveStarAssignee(execution)}";
+        //串行
+        boolean isSequential = false;
+        MultiInstanceLoopCharacteristics loopCharacteristics = new MultiInstanceLoopCharacteristics();
+        loopCharacteristics.setSequential(isSequential);
+        loopCharacteristics.setInputDataItem(inputDataItem);
+        loopCharacteristics.setElementVariable(StrUtil.format("{}_assignee_temp", node.getId()));
+        loopCharacteristics.setCompletionCondition("${multiInstanceHandler.completionCondition(execution)}");
+        userTask.setLoopCharacteristics(loopCharacteristics);
+        String format = StrUtil.format("${{}_assignee_temp}", node.getId());
+        userTask.setAssignee(format);
 
         flowElements.add(userTask);
 
@@ -175,6 +186,18 @@ public class ModelUtil {
         flowElements.add(serviceTask);
 
         // todo 多人会签
+        String inputDataItem = "${multiInstanceHandler.resolveStarAssignee(execution)}";
+        //串行
+        boolean isSequential = false;
+        MultiInstanceLoopCharacteristics loopCharacteristics = new MultiInstanceLoopCharacteristics();
+        loopCharacteristics.setSequential(isSequential);
+        loopCharacteristics.setInputDataItem(inputDataItem);
+        loopCharacteristics.setElementVariable(StrUtil.format("{}_assignee_temp", node.getId()));
+        loopCharacteristics.setCompletionCondition("${multiInstanceHandler.completionCondition(execution)}");
+        userTask.setLoopCharacteristics(loopCharacteristics);
+        String format = StrUtil.format("${{}_assignee_temp}", node.getId());
+        userTask.setAssignee(format);
+
 
         return flowElements;
     }
@@ -307,7 +330,7 @@ public class ModelUtil {
             for (NodeDTO conditionNode : node.getConditionNodes()) {
                 /// todo 保存数据
 
-                String expression = "(expressionHandler.handle(execution, 123))";
+                String expression = "${expressionHandler.handle(execution, 123)}";
 
                 if (NodeUtil.isNode(conditionNode.getChildNode())) {
                     process.addFlowElement(buildSingleSequenceFlow(conditionNode, expression, NodeUtil.getBeginInclusiveGatewayIdByNodeId(node.getId()), conditionNode.getChildId()));

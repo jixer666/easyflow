@@ -16,4 +16,8 @@ public class FlowableConstants {
     public static final String NODE_NODE_NAME = "结束节点";
 
     public static final String TASK_TYPE = "taskType";
+
+    public static final String ASSIGNEE_USER = "assigneeUser";
+
+    public static final String DEFAULT_GROUP_NAME = "默认分组名称";
 }

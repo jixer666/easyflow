@@ -46,6 +46,7 @@
     "vue-count-to": "1.0.13",
     "vue-cropper": "0.5.5",
     "vue-router": "3.4.9",
+    "vue2-water-marker": "^0.0.2",
     "vuedraggable": "2.24.3",
     "vuex": "3.6.0"
   },

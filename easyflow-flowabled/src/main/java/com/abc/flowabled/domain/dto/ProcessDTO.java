@@ -3,7 +3,7 @@ package com.abc.flowabled.domain.dto;
 import lombok.Data;
 
 @Data
-public class FlowProcessDTO {
+public class ProcessDTO {
 
     private Long flowId;
 

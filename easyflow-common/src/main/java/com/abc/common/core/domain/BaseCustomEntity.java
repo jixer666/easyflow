@@ -1,5 +1,7 @@
 package com.abc.common.core.domain;
 
+import com.abc.common.constant.Constants;
+import com.abc.common.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,5 +32,12 @@ public class BaseCustomEntity implements Serializable {
     private Integer ver;
 
     private Integer status;
+
+    public void setCommonParams() {
+        this.setCreateTime(new Date());
+        this.setUpdateTime(new Date());
+        this.setStatus(StatusEnum.NORMAL.getStatus());
+        this.setVer(Constants.DEFAULT_VER);
+    }
 
 }
